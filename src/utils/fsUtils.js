@@ -1,14 +1,20 @@
 const fs = require('fs').promises;
+
 const path = require('path');
+const talkerFile = path.resolve(__dirname, '../talker.json')
 
-const data = path.resolve(__dirname, '../talker.json')
-
-const readFile = async () => {
-    const talkerData = await fs.readFile(data, 'utf-8');
-    console.log(talkerData);
+const readTalkerList = async () => {
+    const talkerData = await fs.readFile(talkerFile, 'utf-8');
     return JSON.parse(talkerData);
 };
 
-module.exports = { readFile };
+const readTalker = async (id) => {
+    const talkerData = await fs.readFile(talkerFile);
+    const talkerList = JSON.parse(talkerData);
+    const talker = talkerList.find((eachTalker) => eachTalker.id === Number(id));
+    if (!talker) throw new Error('Pessoa palestrante não encontrada');
+    return talker;
+};
 
-//
+module.exports = { readTalkerList, readTalker };
+
