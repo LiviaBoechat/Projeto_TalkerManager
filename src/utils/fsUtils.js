@@ -9,7 +9,7 @@ const readTalkerList = async () => {
 };
 
 const readTalker = async (id) => {
-    const talkerData = await fs.readFile(talkerFile);
+    const talkerData = await fs.readFile(talkerFile, 'utf-8');
     const talkerList = JSON.parse(talkerData);
     const talker = talkerList.find((eachTalker) => eachTalker.id === Number(id));
     if (!talker) throw new Error('Pessoa palestrante não encontrada');
