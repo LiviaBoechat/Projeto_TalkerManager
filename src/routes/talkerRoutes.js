@@ -1,5 +1,10 @@
 const express = require('express');
-const { readTalkerList, readTalker } = require('../utils/fsUtils');
+const { readTalkerList, readTalker, writeTalker } = require('../utils/fsUtils');
+const ageValidation = require('../middlewares/ageValidation');
+const nameValidaton = require('../middlewares/nameValidation');
+const rateValidation = require('../middlewares/rateValidation');
+const talkerValidation = require('../middlewares/talkerValidation');
+const tokenValidation = require('../middlewares/tokenValidation');
 
 const talkerRouter = express.Router();
 
@@ -21,6 +26,30 @@ talkerRouter.get('/talker', async (req, res) => {
     } catch (error) {
         return res.status(404).send({ message: error.message });
     }
+  });
+
+  talkerRouter.post('/talker', ageValidation, nameValidaton, rateValidation, talkerValidation, tokenValidation,  async (req, res) => {
+    try {
+        const { name, age, talk } = req.body;
+        const { talk: { watchedAt, rate } } = req.body;
+        
+        // lembre que readTalker() já retorna .json parseado = objeto
+        const talkerList = await readTalker();
+        const newTalker = {
+          id: talkerList[talkerList.length - 1].id + 1,
+          name,
+          age,
+          talk: {
+            watchedAt,
+            rate,
+          },
+        }
+        await writeTalker(newTalker);
+        return res.status(201).json(newTalker);
+    } catch (error) {
+    return res.status(404).send({ message: error.message });
+    }  
+     
   });
  
  module.exports = { talkerRouter }
