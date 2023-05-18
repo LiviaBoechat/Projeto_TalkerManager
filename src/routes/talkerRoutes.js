@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { readTalkerList, readTalker, writeTalker } = require('../utils/fsUtils');
+const { readTalkerList, readTalker, writeTalker, deleteTalker } = require('../utils/fsUtils');
 
 const ageValidation = require('../middlewares/ageValidation');
 const nameValidaton = require('../middlewares/nameValidation');
@@ -69,6 +69,18 @@ talkerRouter.get('/talker', async (req, res) => {
       talker = { ...talker, id: Number(id), name, age, talk };
       await writeTalker(talker);
       return res.status(200).send(talker);
+    } catch (error) {
+      return res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
+    }
+  });
+
+  talkerRouter.delete('/talker/:id', tokenValidation, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const talkerList = await readTalkerList();
+      const filterTalkers = talkerList.filter((eachTalker) => eachTalker.id !== Number(id));
+      await deleteTalker(filterTalkers);
+      return res.status(204).end();
     } catch (error) {
       return res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
     }
