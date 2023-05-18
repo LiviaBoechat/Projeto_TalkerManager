@@ -19,13 +19,8 @@ function dayValidatyion(day) {
   
     const [day, month, year] = insertedDate.split('/').map(Number);
     return (
-        dayValidatyion(day) 
-        &&
-        monthValidation(month) 
-        &&
-        yearValidation(year)
+        dayValidatyion(day) && monthValidation(month) && yearValidation(year)
     );
   }
   
   module.exports = dateFormatValidation;
-  

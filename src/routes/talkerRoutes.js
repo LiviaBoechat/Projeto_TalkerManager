@@ -1,5 +1,7 @@
 const express = require('express');
+
 const { readTalkerList, readTalker, writeTalker } = require('../utils/fsUtils');
+
 const ageValidation = require('../middlewares/ageValidation');
 const nameValidaton = require('../middlewares/nameValidation');
 const rateValidation = require('../middlewares/rateValidation');
@@ -28,28 +30,28 @@ talkerRouter.get('/talker', async (req, res) => {
     }
   });
 
-  talkerRouter.post('/talker', ageValidation, nameValidaton, rateValidation, talkerValidation, tokenValidation,  async (req, res) => {
+  talkerRouter.post('/talker', 
+  ageValidation, 
+  nameValidaton, 
+  rateValidation, 
+  talkerValidation, 
+  tokenValidation, async (req, res) => {
     try {
-        const { name, age, talk } = req.body;
+        const { name, age } = req.body;
         const { talk: { watchedAt, rate } } = req.body;
-        
         // lembre que readTalker() já retorna .json parseado = objeto
         const talkerList = await readTalker();
         const newTalker = {
-          id: talkerList[talkerList.length - 1].id + 1,
-          name,
+          id: talkerList[talkerList.length - 1].id + 1, 
+          name, 
           age,
-          talk: {
-            watchedAt,
-            rate,
-          },
-        }
+          talk: { watchedAt, rate },
+        };
         await writeTalker(newTalker);
         return res.status(201).json(newTalker);
     } catch (error) {
     return res.status(404).send({ message: error.message });
-    }  
-     
+    }    
   });
  
- module.exports = { talkerRouter }
+ module.exports = { talkerRouter };
