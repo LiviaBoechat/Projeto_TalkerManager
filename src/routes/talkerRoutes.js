@@ -5,6 +5,7 @@ const { readTalkerList, readTalker, writeTalker } = require('../utils/fsUtils');
 const ageValidation = require('../middlewares/ageValidation');
 const nameValidaton = require('../middlewares/nameValidation');
 const rateValidation = require('../middlewares/rateValidation');
+const rateValidation2 = require('../middlewares/rateValidation');
 const talkerValidation = require('../middlewares/talkerValidation');
 const tokenValidation = require('../middlewares/tokenValidation');
 
@@ -31,26 +32,26 @@ talkerRouter.get('/talker', async (req, res) => {
   });
 
   talkerRouter.post('/talker', 
+  tokenValidation,
   ageValidation, 
   nameValidaton, 
-  rateValidation, 
   talkerValidation, 
-  tokenValidation, async (req, res) => {
+  rateValidation,
+  rateValidation2, async (req, res) => {
     try {
-        const { name, age } = req.body;
-        const { talk: { watchedAt, rate } } = req.body;
-        // lembre que readTalker() já retorna .json parseado = objeto
-        const talkerList = await readTalker();
+        const { name, age, talk } = req.body;
+        // lembre que readTalkerList() já retorna .json parseado = objeto
+        const talkerList = await readTalkerList();
         const newTalker = {
           id: talkerList[talkerList.length - 1].id + 1, 
           name, 
           age,
-          talk: { watchedAt, rate },
+          talk,
         };
         await writeTalker(newTalker);
         return res.status(201).json(newTalker);
     } catch (error) {
-    return res.status(404).send({ message: error.message });
+    return res.status(409).send({ message: error.message });
     }    
   });
  
