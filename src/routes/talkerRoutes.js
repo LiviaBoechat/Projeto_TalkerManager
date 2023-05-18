@@ -14,8 +14,8 @@ const talkerRouter = express.Router();
 talkerRouter.get('/talker', async (req, res) => {
     console.log('cheguei aqui');
     try {
-     const talkeList = await readTalkerList();
-     return res.status(200).json(talkeList);
+     const talkerList = await readTalkerList();
+     return res.status(200).json(talkerList);
     } catch (error) {
      res.status(500).send({ message: error.message });
     }
@@ -53,6 +53,25 @@ talkerRouter.get('/talker', async (req, res) => {
     } catch (error) {
     return res.status(409).send({ message: error.message });
     }    
+  });
+
+  talkerRouter.put('/talker/:id', 
+  tokenValidation, 
+  nameValidaton,
+  ageValidation, 
+  talkerValidation, 
+  rateValidation,
+  rateValidation2, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, age, talk } = req.body;
+      let talker = await readTalker(id); // já traz objeto do talker ref. ao id
+      talker = { ...talker, id: Number(id), name, age, talk };
+      await writeTalker(talker);
+      return res.status(200).send(talker);
+    } catch (error) {
+      return res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
+    }
   });
  
  module.exports = { talkerRouter };
