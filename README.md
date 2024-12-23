@@ -12,32 +12,7 @@ A aplicação foi construída com o objetivo de fornecer uma forma simples de ge
 - **Middleware**: Validações customizadas para garantir que os dados estejam no formato adequado (e-mail, senha, dados dos palestrantes, etc.).
 - **Sistema de Arquivos (FS)**: A aplicação utiliza arquivos JSON para armazenar os dados dos palestrantes.
 
-
-## Especificações do projeto
-
-<details>
-<summary><strong>Testes</strong></summary>
-  
-- Os testes deste projeto são, de maneira geral, testes de integração. Cada teste fará diversas chamadas à API e validará a resposta e o comportamento da aplicação, mas sem restringir implementações específicas de classes e métodos.
-- Os testes do projeto utilizam um banco "mockado" em memória do tipo H2.
-
-</details>
-
-<details>
-<summary>Descrição do banco de dados</summary><br>
-
-![Modelo de tabelas](images/agrix-tabelas-fase-b.png)
-
-Nesse modelos, temos as seguintes tabelas:
-- `farm`: representa uma fazenda
-- `crop`: representa uma plantação, e está em relacionamento `n:1` ("muitos para um") com a tabela `farm`
-- `fertilizer`: esta nova tabela representa um fertilizante, e está em um relacionamento `n:n` ("muitos para muitos") com a tabela `crop`. Esse relacionamento é realizado através da tabela `crop_fertilizer`.
-
-</details>
-
-
 ## Rotas
-
  
 - POST `/login`
 - GET `/talker/search`
