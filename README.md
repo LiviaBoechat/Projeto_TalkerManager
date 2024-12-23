@@ -81,7 +81,7 @@ Exemplo de resposta:
 <details>
   <summary>Limitar acesso à rota POST /talker para pessoa autenticada com role correto</summary><br />
 
-Retorna status 401 caso a pessoa não tenha inserido o token no header/auth. Do contrário, a rota deve retornar status 200.
+Retorna status 401 caso a pessoa não tenha inserido o token no header/authorization. Do contrário, a rota deve retornar status 200.
 
 </details>
 
