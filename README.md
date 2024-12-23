@@ -47,12 +47,18 @@ Nesse modelos, temos as seguintes tabelas:
 - PUT `/talker/:id`
 - DELETE `/talker/:id`
 
+## Autenticação
+
+Este projeto utiliza autenticação baseada em JWT (JSON Web Token). A autenticação é necessária para acessar algumas rotas que manipulam os dados dos palestrantes. O processo de autenticação ocorre da seguinte forma:
 
 ### 1. Sobre a rota POST `/login`:
 
-    - deve receber o `email` e `password` no corpo da requisição
+Para obter um token de acesso, faça uma requisição `POST` para a rota `/login` passando os seguintes dados no corpo da requisição:
+
+    - Para obter um token de acesso, faça uma requisição `POST` para a rota `/login`          passando os seguintes dados no corpo da requisição:`email` e                           `password` no corpo da requisição
     - caso os dados estejam incorretos, deve retornar status 403
-    - caso os dados estejam corretos, deve retornar um campo `token` contendo um JWT gerado
+    - caso os dados estejam corretos, deve retornar um campo `token` contendo um JWT         gerado
+    - O token gerado é necessário para acessar as rotas protegidas, como as de criação,       alteração e exclusão de palestrantes.
 
 <details>
   <summary>🔍 Formato/exemplo de requisição e resposta</summary><br />
@@ -76,12 +82,14 @@ Exemplo de resposta:
 
 </details>
 
-### 2. Limita acesso à rota POST /talker
+### 2. Limita acesso à rota POST /talker, PUT `/talker/:id` e DELETE `/talker/:id`
 
 <details>
-  <summary>Limitar acesso à rota POST /talker para pessoa autenticada com role correto</summary><br />
 
 Retorna status 401 caso a pessoa não tenha inserido o token no header/authorization. Do contrário, a rota deve retornar status 200.
+
+Exemplo: 
+Authorization: seu_token_aqui
 
 </details>
 
