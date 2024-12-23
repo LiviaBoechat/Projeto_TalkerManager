@@ -55,10 +55,10 @@ Este projeto utiliza autenticação baseada em JWT (JSON Web Token). A autentica
 
 Para obter um token de acesso, faça uma requisição `POST` para a rota `/login` passando os seguintes dados no corpo da requisição:
 
-    - Para obter um token de acesso, faça uma requisição `POST` para a rota `/login`          passando os seguintes dados no corpo da requisição:`email` e                           `password` no corpo da requisição
+    - Para obter um token de acesso, faça uma requisição `POST` para a rota `/login` passando os seguintes dados no corpo da requisição:`email` e `password` no corpo da requisição
     - caso os dados estejam incorretos, deve retornar status 403
-    - caso os dados estejam corretos, deve retornar um campo `token` contendo um JWT         gerado
-    - O token gerado é necessário para acessar as rotas protegidas, como as de criação,       alteração e exclusão de palestrantes.
+    - caso os dados estejam corretos, deve retornar um campo `token` contendo um JWT gerado
+    - O token gerado é necessário para acessar as rotas protegidas, como as de criação, alteração e exclusão de palestrantes.
 
 <details>
   <summary>🔍 Formato/exemplo de requisição e resposta</summary><br />
